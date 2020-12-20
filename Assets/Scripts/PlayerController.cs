@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,23 +12,16 @@ public class PlayerController : MonoBehaviour
     public float jumpPower;
 
     [SerializeField]
-    private TerrainCollider terrainCollider;
-
-    [SerializeField]
     private PhysicMaterial physicMaterialBrake;
 
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
-
-
-        //Sliding();
     }
 
-    private void Sliding() {
-        //rb.AddForce(transform.forward * speed, ForceMode.Impulse);
+    private void Tilt(float tiltRot) {
+        transform.eulerAngles = new Vector3(0, 0, 5);
     }
 
 
@@ -51,6 +45,8 @@ public class PlayerController : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
 
         rb.velocity = new Vector3(x * moveSpeed, rb.velocity.y, rb.velocity.z);
+
+        //Tilt(x);
     }
 
     /// <summary>
