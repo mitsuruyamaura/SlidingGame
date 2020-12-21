@@ -14,6 +14,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private PhysicMaterial physicMaterialBrake;
 
+    private int score;
+
+    [SerializeField]
+    private UIManager uiManager;
+
 
     void Start()
     {
@@ -77,5 +82,12 @@ public class PlayerController : MonoBehaviour
         Move();
         Brake();
         Accelerate();
+    }
+
+    public void AddScore(int amount) {
+        score += amount;
+        Debug.Log(score);
+
+        uiManager.UpdateDisplayScore(score);
     }
 }
