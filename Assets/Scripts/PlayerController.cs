@@ -9,14 +9,16 @@ public class PlayerController : MonoBehaviour
 
     public float moveSpeed;
 
+    [HideInInspector]
     public float jumpPower;
 
-    [SerializeField]
+    [SerializeField,HideInInspector]
     private PhysicMaterial physicMaterialBrake;
+
 
     private int score;
 
-    [SerializeField]
+    [SerializeField,HideInInspector]
     private UIManager uiManager;
 
 
