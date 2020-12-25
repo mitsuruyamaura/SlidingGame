@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     private UIManager uiManager;
 
 
+    private bool isGameClear;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -77,13 +79,41 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)) {
             Jump();
         }
-        
+
+        if (isGameClear == true) {
+            rb.velocity *= 0.985f;
+
+            if (rb.velocity.z <= 2.5f) {
+                rb.velocity = Vector3.zero;
+                rb.isKinematic = true;
+                // https://gyazo.com/3ff58b30e8bc2f8b12001e9199e503da 2.0f
+                // https://gyazo.com/c1660bf33f2acccdf0f9d8431326dfdd 2.5f
+            }
+        }
+
     }
 
     void FixedUpdate() {
+        if (isGameClear == true) {
+            return;
+        }
+
         Move();
         Brake();
         Accelerate();
+    }
+
+    private void OnTriggerEnter(Collider other) {
+
+        if (other.gameObject.tag == "Goal") {
+            Debug.Log("Goal");
+
+            isGameClear = true;
+            // https://gyazo.com/3fb9f4febf3f679893820a318d9f77ba
+            //rb.velocity = Vector3.zero;
+            //rb.isKinematic = true;
+        }
+
     }
 
     public void AddScore(int amount) {
