@@ -7,14 +7,35 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
 
+    private bool isGoal;
+
+    private float coefficient = 0.985f;    // 速度を減速させるための係数
+
+    private float stopValue = 2.5f;        // 減速中に、この値以下になったら停止させる速度の値
+
+    private Animator anim;
+
+
+    [Header("移動速度")]
     public float moveSpeed;
 
-    [HideInInspector]
+    [Header("加速速度")]
+    public float accelerationSpeed;
+
+    [Header("ジャンプ力")]
     public float jumpPower;
 
-    [SerializeField,HideInInspector]
-    private PhysicMaterial physicMaterialBrake;
+    [SerializeField]
+    private PhysicMaterial pmNoFriction;
 
+    [SerializeField, Header("地面判定用レイヤー"), HideInInspector]
+    private LayerMask groundLayer;
+
+    [SerializeField, Header("地面の判定"), HideInInspector]
+    private bool isGrounded;
+
+ 
+    // mi
 
     private int score;
 
@@ -22,11 +43,10 @@ public class PlayerController : MonoBehaviour
     private UIManager uiManager;
 
 
-    private bool isGameClear;
-
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
     }
 
     private void Tilt(float tiltRot) {
@@ -38,13 +58,28 @@ public class PlayerController : MonoBehaviour
     /// ブレーキ
     /// </summary>
     private void Brake() {
-        float z = Input.GetAxis("Vertical");
+        float vertical = Input.GetAxis("Vertical");
 
-        if (z < 0) {
-            physicMaterialBrake.dynamicFriction = Mathf.Abs(z);
+        if (vertical < 0) {
+            pmNoFriction.dynamicFriction += Time.deltaTime;
+
+            if (pmNoFriction.dynamicFriction > 1.0f) {
+                pmNoFriction.dynamicFriction = 1.0f;
+            }
+
         } else {
-            physicMaterialBrake.dynamicFriction = 0;
+            //if (pmNoFriction.dynamicFriction > 0) {
+            //    pmNoFriction.dynamicFriction -= Time.deltaTime;
+
+            //    if (pmNoFriction.dynamicFriction <= 0) {
+                    pmNoFriction.dynamicFriction = 0;
+            //    }
+            //}
+
+            
         }
+
+        //pmNoFriction.dynamicFriction = Mathf.Clamp(pmNoFriction.dynamicFriction, 0, 1.0f);
     }
 
     /// <summary>
@@ -64,43 +99,48 @@ public class PlayerController : MonoBehaviour
     private void Jump() {
 
         rb.AddForce(transform.up * jumpPower);
+        anim.SetTrigger("jump");
     }
 
+    /// <summary>
+    /// 加速
+    /// </summary>
     private void Accelerate() {
         float z = Input.GetAxis("Vertical");
 
         if (z > 0) {
-            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, moveSpeed);
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, moveSpeed * 2);
         }
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            Jump();
-        }
+        Brake();
+        Accelerate();
 
-        if (isGameClear == true) {
-            rb.velocity *= 0.985f;
+        if (isGoal == true) {
+            rb.velocity *= coefficient;
 
-            if (rb.velocity.z <= 2.5f) {
+            if (rb.velocity.z <= stopValue) {
                 rb.velocity = Vector3.zero;
                 rb.isKinematic = true;
-                // https://gyazo.com/3ff58b30e8bc2f8b12001e9199e503da 2.0f
-                // https://gyazo.com/c1660bf33f2acccdf0f9d8431326dfdd 2.5f
             }
         }
 
+        CheckGround();
+
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded == true) {
+            Jump();
+        }
     }
 
     void FixedUpdate() {
-        if (isGameClear == true) {
+        if (isGoal == true) {
             return;
         }
 
         Move();
-        Brake();
-        Accelerate();
+
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -108,12 +148,29 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "Goal") {
             Debug.Log("Goal");
 
-            isGameClear = true;
-            // https://gyazo.com/3fb9f4febf3f679893820a318d9f77ba
+            // ゲームクリアの状態にする
+            isGoal = true;
+
+            Debug.Log(isGoal);
+
             //rb.velocity = Vector3.zero;
             //rb.isKinematic = true;
         }
+    }
 
+    /// <summary>
+    /// 斜面との接地判定。true なら接地している状態、false は接地していない状態と定義する
+    /// </summary>
+    private void CheckGround() {
+        //  Linecastでキャラの足元に地面用のLayerを持つゲームオブジェクトがあるか判定。対象のLayerのときは true を返す
+        isGrounded = Physics.Linecast(
+                        transform.position,
+                        transform.position - transform.up * 0.3f,
+                        groundLayer);
+
+        Debug.DrawLine(transform.position,
+                        transform.position - transform.up * 0.3f,
+                        Color.red);
     }
 
     public void AddScore(int amount) {
