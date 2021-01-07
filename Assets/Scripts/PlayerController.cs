@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     private Animator anim;
 
+    private int score;
 
     [Header("移動速度")]
     public float moveSpeed;
@@ -34,12 +35,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Header("地面の判定"), HideInInspector]
     private bool isGrounded;
 
- 
-    // mi
-
-    private int score;
-
-    [SerializeField,HideInInspector]
+    [SerializeField]
     private UIManager uiManager;
 
 
@@ -173,9 +169,13 @@ public class PlayerController : MonoBehaviour
                         Color.red);
     }
 
+    /// <summary>
+    /// スコア加算
+    /// </summary>
+    /// <param name="amount"></param>
     public void AddScore(int amount) {
         score += amount;
-        Debug.Log(score);
+        Debug.Log("現在の得点 : " + score);
 
         uiManager.UpdateDisplayScore(score);
     }

@@ -8,7 +8,8 @@ public class Circle : MonoBehaviour
 
     private void OnTriggerEnter(Collider col) {
         if (col.gameObject.tag == "Player") {
-            Debug.Log(point);
+            //Debug.Log(point);
+            //Debug.Log("キャラ侵入");
 
             if (col.gameObject.TryGetComponent(out PlayerController player)) {
                 player.AddScore(point);

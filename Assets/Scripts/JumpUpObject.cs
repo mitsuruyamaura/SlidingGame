@@ -41,6 +41,8 @@ public class JumpUpObject : MonoBehaviour
 
             // TODO 
             StartCoroutine(HeadUp(0.0f));
+
+
         }
     }
 }
