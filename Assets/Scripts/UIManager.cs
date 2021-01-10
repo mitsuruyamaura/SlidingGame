@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Text txtScore;
 
-    [SerializeField, HideInInspector]
+    [SerializeField]
     private Text txtTime;
 
     /// <summary>
@@ -19,9 +19,6 @@ public class UIManager : MonoBehaviour
     public void UpdateDisplayScore(int score) {
         txtScore.text = score.ToString();
     }
-
-
-    // mi
 
     /// <summary>
     /// ゲーム時間の表示更新
