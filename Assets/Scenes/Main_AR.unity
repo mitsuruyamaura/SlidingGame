@@ -32999,6 +32999,7 @@ GameObject:
   m_Component:
   - component: {fileID: 851126396}
   - component: {fileID: 851126395}
+  - component: {fileID: 851126397}
   m_Layer: 0
   m_Name: AR Session Origin
   m_TagString: Untagged
@@ -33027,13 +33028,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 851126394}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -2.3, z: 4.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1744958536}
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &851126397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 851126394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de1757d8917ca15488465c7570efb7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraPos: {fileID: 851126394}
+  playerObj: {fileID: 1342336499}
 --- !u!1 &863650813
 GameObject:
   m_ObjectHideFlags: 0
@@ -34011,6 +34026,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de1757d8917ca15488465c7570efb7d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraPos: {fileID: 963194225}
   playerObj: {fileID: 1342336499}
 --- !u!114 &963194230
 MonoBehaviour:
@@ -69422,7 +69438,6 @@ GameObject:
   - component: {fileID: 1744958535}
   - component: {fileID: 1744958534}
   - component: {fileID: 1744958533}
-  - component: {fileID: 1744958537}
   - component: {fileID: 1744958539}
   - component: {fileID: 1744958538}
   m_Layer: 0
@@ -69526,25 +69541,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1744958531}
   m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
-  m_LocalPosition: {x: 0, y: -0.35, z: -4}
+  m_LocalPosition: {x: 0, y: -0.02, z: -4.36}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 851126396}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
---- !u!114 &1744958537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1744958531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de1757d8917ca15488465c7570efb7d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerObj: {fileID: 1342336499}
 --- !u!114 &1744958538
 MonoBehaviour:
   m_ObjectHideFlags: 0
