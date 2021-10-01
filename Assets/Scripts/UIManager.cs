@@ -12,6 +12,21 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Text txtTime;
 
+    [SerializeField]
+    private Button btnJump;
+
+    private PlayerController playerController;
+
+
+    /// <summary>
+    /// 初期設定
+    /// </summary>
+    /// <param name="playerController"></param>
+    public void SetUpUIManager(PlayerController playerController) {
+        this.playerController = playerController;
+        btnJump.onClick.AddListener(OnClickJump);
+    }
+
     /// <summary>
     /// スコアの表示更新
     /// </summary>
@@ -26,5 +41,18 @@ public class UIManager : MonoBehaviour
     /// <param name="time"></param>
     public void UpdateDisplayGameTime(int time) {
         txtTime.text = time.ToString();
+    }
+
+    /// <summary>
+    /// ジャンプボタンを押した際の処理
+    /// </summary>
+    private void OnClickJump() {
+
+        // 接地している場合
+        if (playerController.GetIsGrounded()) {
+
+            // ジャンプ
+            playerController.Jump();
+        }      
     }
 }

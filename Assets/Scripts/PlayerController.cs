@@ -38,11 +38,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private UIManager uiManager;
 
+    [SerializeField]
+    private Joystick joystick;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+
+        uiManager.SetUpUIManager(this);
     }
 
     private void Tilt(float tiltRot) {
@@ -55,6 +60,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Brake() {
         float vertical = Input.GetAxis("Vertical");
+        vertical = joystick.Vertical;
 
         if (vertical < 0) {
             pmNoFriction.dynamicFriction += Time.deltaTime;
@@ -83,6 +89,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Move() {
         float x = Input.GetAxis("Horizontal");
+        x = joystick.Horizontal;
 
         rb.velocity = new Vector3(x * moveSpeed, rb.velocity.y, rb.velocity.z);
 
@@ -92,7 +99,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// ジャンプ
     /// </summary>
-    private void Jump() {
+    public void Jump() {
 
         rb.AddForce(transform.up * jumpPower);
         anim.SetTrigger("jump");
@@ -103,6 +110,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Accelerate() {
         float z = Input.GetAxis("Vertical");
+        z = joystick.Vertical;
 
         if (z > 0) {
             rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, moveSpeed * 2);
@@ -178,5 +186,13 @@ public class PlayerController : MonoBehaviour
         Debug.Log("現在の得点 : " + score);
 
         uiManager.UpdateDisplayScore(score);
+    }
+
+    /// <summary>
+    /// IsGrounded の取得
+    /// </summary>
+    /// <returns></returns>
+    public bool GetIsGrounded() {
+        return isGrounded;
     }
 }
