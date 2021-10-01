@@ -38,11 +38,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private UIManager uiManager;
 
+    [SerializeField]
+    private Joystick joystick;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+
+        uiManager.SetUpUIManager(this);
     }
 
     private void Tilt(float tiltRot) {
@@ -54,7 +59,13 @@ public class PlayerController : MonoBehaviour
     /// ブレーキ
     /// </summary>
     private void Brake() {
-        float vertical = Input.GetAxis("Vertical");
+        float vertical;
+
+# if UNITY_EDITOR
+        vertical = Input.GetAxis("Vertical");
+# elif UNITY_ANDROID
+        vertical = joystick.Vertical;
+# endif
 
         if (vertical < 0) {
             pmNoFriction.dynamicFriction += Time.deltaTime;
@@ -82,7 +93,13 @@ public class PlayerController : MonoBehaviour
     /// 移動
     /// </summary>
     private void Move() {
-        float x = Input.GetAxis("Horizontal");
+        float x;
+
+# if UNITY_EDITOR
+        x = Input.GetAxis("Horizontal");
+# elif UNITY_ANDROID
+        x = joystick.Horizontal;
+# endif
 
         rb.velocity = new Vector3(x * moveSpeed, rb.velocity.y, rb.velocity.z);
 
@@ -92,7 +109,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// ジャンプ
     /// </summary>
-    private void Jump() {
+    public void Jump() {
 
         rb.AddForce(transform.up * jumpPower);
         anim.SetTrigger("jump");
@@ -102,7 +119,13 @@ public class PlayerController : MonoBehaviour
     /// 加速
     /// </summary>
     private void Accelerate() {
-        float z = Input.GetAxis("Vertical");
+        float z;
+
+#if UNITY_EDITOR
+        z = Input.GetAxis("Vertical");
+# elif UNITY_ANDROID
+        z = joystick.Vertical;
+# endif
 
         if (z > 0) {
             rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, moveSpeed * 2);
@@ -178,5 +201,13 @@ public class PlayerController : MonoBehaviour
         Debug.Log("現在の得点 : " + score);
 
         uiManager.UpdateDisplayScore(score);
+    }
+
+    /// <summary>
+    /// IsGrounded の取得
+    /// </summary>
+    /// <returns></returns>
+    public bool GetIsGrounded() {
+        return isGrounded;
     }
 }
