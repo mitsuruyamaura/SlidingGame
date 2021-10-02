@@ -9,7 +9,7 @@ public class ARGameManager : MonoBehaviour
     [SerializeField]
     private GameObject fieldObj;
 
-    //private PlaneDetection planeDetection;
+    private PlaneDetection planeDetection;
 
     private GameObject obj;
 
@@ -20,7 +20,7 @@ public class ARGameManager : MonoBehaviour
     void Awake() {
 
         TryGetComponent(out raycastManager);
-        //TryGetComponent(out planeDetection);
+        TryGetComponent(out planeDetection);
     }
 
 
