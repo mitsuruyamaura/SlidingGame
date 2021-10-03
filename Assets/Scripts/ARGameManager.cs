@@ -4,10 +4,13 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
-public class ARGameManager : MonoBehaviour
-{
+public class ARGameManager : MonoBehaviour {
+
     [SerializeField]
     private GameObject fieldObj;
+
+    [SerializeField]
+    private CameraController cameraController;
 
     private PlaneDetection planeDetection;
 
@@ -24,14 +27,12 @@ public class ARGameManager : MonoBehaviour
     }
 
 
-    void Start()
-    {
-        
+    void Start() {
+
     }
 
 
-    void Update()
-    {
+    void Update() {
         if (Input.touchCount < 0) {
             return;
         }
@@ -55,14 +56,23 @@ public class ARGameManager : MonoBehaviour
 
             if (obj == null) {
                 //uiManager.DisplayDebug("Raycast 成功");
-                //obj = Instantiate(objPrefab, hitPose.position, hitPose.rotation);
+                obj = Instantiate(fieldObj, hitPose.position, hitPose.rotation);
 
-                obj = fieldObj;
+                // 平面感知を終了
+                planeDetection.SetAllPlaneActivate(false);
 
-                fieldObj.SetActive(true);
-                
+                Debugger.instance.DisplayLog("平面感知を終了");
+
+                // ペンギンの情報をカメラにセット
+                cameraController.SetPlayer(obj.GetComponent<Stage>().GetPlayerObj());
+
+                Debugger.instance.DisplayLog("プレイヤーの設定完了");
+
+                //obj = fieldObj;
+
+                //fieldObj.SetActive(true);
+
                 //uiManager.SwitchActivateTargetIcon(true);
-
 
                 //currentARState = ARState.Ready;
 
