@@ -23,7 +23,6 @@ public class ARGameManager : MonoBehaviour {
     void Awake() {
 
         TryGetComponent(out raycastManager);
-        TryGetComponent(out planeDetection);
     }
 
 
@@ -59,7 +58,9 @@ public class ARGameManager : MonoBehaviour {
                 obj = Instantiate(fieldObj, hitPose.position, hitPose.rotation);
 
                 // 平面感知を終了
-                planeDetection.SetAllPlaneActivate(false);
+                if (TryGetComponent(out planeDetection)) {
+                    planeDetection.SetAllPlaneActivate(false);
+                }
 
                 Debugger.instance.DisplayLog("平面感知を終了");
 
