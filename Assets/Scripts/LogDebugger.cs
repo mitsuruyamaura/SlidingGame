@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Debugger : MonoBehaviour
+public class LogDebugger : MonoBehaviour
 {
-    public static Debugger instance;
+    public static LogDebugger instance;
 
     [SerializeField]
     private Text txtDebug;
+
+    int count;
 
 
     void Awake() {
@@ -21,6 +23,11 @@ public class Debugger : MonoBehaviour
 
     public void DisplayLog(string message) {
         txtDebug.text += message + "\n";
-    }
+        count++;
 
+        if (count > 5) {
+            txtDebug.text = "";
+            count = 0;
+        }
+    }
 }
