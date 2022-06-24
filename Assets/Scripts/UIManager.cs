@@ -19,15 +19,6 @@ public class UIManager : MonoBehaviour
 
 
     /// <summary>
-    /// 初期設定
-    /// </summary>
-    /// <param name="playerController"></param>
-    public void SetUpUIManager(PlayerController playerController) {
-        this.playerController = playerController;
-        btnJump.onClick.AddListener(OnClickJump);
-    }
-
-    /// <summary>
     /// スコアの表示更新
     /// </summary>
     /// <param name="score"></param>
@@ -41,6 +32,15 @@ public class UIManager : MonoBehaviour
     /// <param name="time"></param>
     public void UpdateDisplayGameTime(int time) {
         txtTime.text = time.ToString();
+    }
+
+    /// <summary>
+    /// 初期設定
+    /// </summary>
+    /// <param name="playerController"></param>
+    public void SetUpUIManager(PlayerController playerController) {
+        this.playerController = playerController;
+        btnJump.onClick.AddListener(OnClickJump);
     }
 
     /// <summary>

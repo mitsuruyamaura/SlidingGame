@@ -5,14 +5,15 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField]
-    private GameObject cameraPos;
-
-    [SerializeField]
     private GameObject playerObj;
 
     private Vector3 offset;
 
     private bool isSetup = false;
+
+    [SerializeField]
+    private GameObject cameraPos;
+
 
     void Start() {
         if (playerObj != null) {
@@ -27,9 +28,9 @@ public class CameraController : MonoBehaviour
         if (playerObj != null && isSetup) {
 
             // カメラの位置を追従対象の位置 + 補正値にする
-            cameraPos.transform.position = playerObj.transform.position + offset;
+            transform.position = playerObj.transform.position + offset;
 
-            Debugger.instance.DisplayLog("カメラ移動");
+            LogDebugger.instance.DisplayLog("カメラ移動");
         }
     }
 
@@ -41,7 +42,7 @@ public class CameraController : MonoBehaviour
 
         playerObj = player;
 
-        Debugger.instance.DisplayLog(playerObj.name);
+        LogDebugger.instance.DisplayLog(playerObj.name);
 
         SetOffset();
     }
@@ -55,5 +56,19 @@ public class CameraController : MonoBehaviour
         offset = cameraPos.transform.position - playerObj.transform.position;
 
         isSetup = true;
+    }
+
+    /// <summary>
+    /// Player とカメラのオフセット位置の情報を設定
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="cameraOffset"></param>
+    public void SetStageInfo(GameObject player, GameObject cameraOffset) {
+        playerObj = player;
+        cameraPos = cameraOffset;
+
+        LogDebugger.instance.DisplayLog(playerObj.name);
+
+        SetOffset();
     }
 }
