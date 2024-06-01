@@ -339,7 +339,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f4582257d8ac5c4b913b0a7deb186e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageObj: {fileID: 5950508853298403845, guid: fcb0b58d54b5ee74ba6131c8a530c56d, type: 3}
+  stageObj: {fileID: 2057413367}
+  stagePrefab: {fileID: 4088072500875770620, guid: fcb0b58d54b5ee74ba6131c8a530c56d, type: 3}
   cameraController: {fileID: 851126397}
   currentARState: 0
 --- !u!114 &851126401

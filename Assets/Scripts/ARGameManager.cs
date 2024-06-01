@@ -10,6 +10,9 @@ public class ARGameManager : MonoBehaviour {
     private GameObject stageObj;
 
     [SerializeField]
+    private Stage stagePrefab;
+
+    [SerializeField]
     private CameraController cameraController;
 
     private GameObject obj;
@@ -37,10 +40,10 @@ public class ARGameManager : MonoBehaviour {
         TryGetComponent(out raycastManager);
 #if UNITY_EDITOR
         currentARState = ARState.None;
-        stageObj.GetComponent<Stage>().GetPlayerObj();
+        //stageObj.GetComponent<Stage>().GetPlayerObj();
 # elif UNITY_ANDROID || UNITY_IOS
         currentARState = ARState.Tracking;
-        //stageObj.SetActive(false);
+        stageObj.SetActive(false);
 # endif
     }
 
